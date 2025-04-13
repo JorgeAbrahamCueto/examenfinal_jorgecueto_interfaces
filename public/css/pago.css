@@ -1,0 +1,114 @@
+/* Estilos generales */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Contenedor principal */
+.payment-form {
+    max-width: 500px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.payment-form h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #2c3e50;
+    font-size: 1.8rem;
+}
+
+/* Grupos de formulario */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #495057;
+}
+
+/* Campos simulados */
+.simulated-card {
+    padding: 0.75rem;
+    background-color: #f1f3f5;
+    border-radius: 5px;
+    border: 1px solid #dee2e6;
+    color: #495057;
+}
+
+/* Total */
+.total-amount {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #2a6496;
+    padding: 0.75rem;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+}
+
+/* Botones */
+.payment-button {
+    width: 100%;
+    padding: 1rem;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+}
+
+.payment-button:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+
+.payment-button:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.cancel-container {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.cancel-button {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: #6c757d;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.cancel-button:hover {
+    background-color: #5a6268;
+    transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    .payment-form {
+        padding: 1.5rem;
+        margin: 1rem;
+    }
+    
+    .payment-form h2 {
+        font-size: 1.5rem;
+    }
+}

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles: <%= (typeof producto !== 'undefined' && producto) ? producto.nombre : 'Producto no encontrado' %></title>
+    <link rel="shortcut icon" href="/images/favicon-32x32.png" type="image/x-icon">
+    <link rel="stylesheet" href="/css/normalize.css">
+    <link rel="stylesheet" href="/css/tiendaestilos.css"> <link rel="stylesheet" href="/css/detallesestilo.css"> </head>
+<body>
+    <header class="hero">
+        <nav class="nav container">
+            <div class="nav__logo">
+                <h2 id="subir" class="nav__title">RetroMusicVideo</h2>
+            </div>
+            <ul class="nav__link nav__link--menu">
+                <li class="nav__items"><a href="/" class="nav__links">Inicio</a></li>
+                <li class="nav__items"><a href="/tienda" class="nav__links">Tienda</a></li>
+                <li class="nav_items"><a href="/carrito.html" target="_blank" class="nav__links">Carrito</a></li> <%# Considera ruta Node.js /carrito %>
+                <img src="/images/close.svg" class="nav__close" alt="close">
+            </ul>
+            <div class="nav__menu"><img src="/images/menu.svg" class="nav__img" alt="menu"></div>
+        </nav>
+    </header>
+
+    <main>
+        <%# Comprobar si la variable 'producto' fue pasada y no es null %>
+        <% if (typeof producto !== 'undefined' && producto) { %>
+            <div class="tienda-details">
+                <div class='tienda-details-image'>
+                    <%# Imprime la URL de la imagen. Asegúrate que producto.imagen_url tiene valor %>
+                    <img id="imagentienda" src="<%= producto.imagen_url || '/images/placeholder.png' %>" alt="<%= producto.nombre %>"> <%# Añadido placeholder por si acaso %>
+                </div>
+                <div class='tienda-details-data'>
+                    <%# Imprime el nombre %>
+                    <h2 id="nombretienda" class="tienda-details-data-nombre"><%= producto.nombre %></h2>
+                    <p>
+                        <label class="tienda-details-data-label">Descripción: </label>
+                        <%# Imprime descripción o un texto por defecto %>
+                        <span id="descripcionPtienda"><%= producto.descripcion || 'No disponible' %></span><br>
+
+                        <label class="tienda-details-data-label">Categoría: </label>
+                        <%# Imprime categoría o un texto por defecto %>
+                        <span id="categoriatienda"><%= producto.categoria || 'No especificada' %></span><br>
+
+                        <label class="tienda-details-data-label">Precio: </label>
+                        <%# Imprime precio formateado y lo guarda en data attribute %>
+                        <% let precioBase = producto.precio ? parseFloat(producto.precio).toFixed(2) : '0.00'; %>
+                        <span id="preciotienda" data-precio-base="<%= producto.precio || 0 %>">s/.<%= precioBase %></span><br>
+
+                        <label class="tienda-details-data-label" for="cantidad">Cantidad: </label>
+                        <input type="number" id="cantidad" min="1" value="1">
+                        <br>
+
+                        <label class="tienda-details-data-label">Total: </label>
+                        <%# Muestra el total inicial basado en el precio base %>
+                        <span id="totaltienda">s/.<%= precioBase %></span><br>
+
+                        <button id="btnAgregar" class="tienda-details-data-button-agregar">Agregar al Carrito</button>
+                        <a href="/tienda" id="btnCancelar" class="tienda-details-data-button-cancelar" style="text-decoration: none; display: inline-block; margin-left: 5px;">Cancelar</a>
+                    </p>
+                </div>
+            </div>
+        <% } else { %>
+            <%# Sección que se muestra si 'producto' no se pasó o no se encontró %>
+            <div style="text-align: center; padding: 50px;">
+                 <h2>Producto no encontrado</h2>
+                 <p>El producto que buscas no existe o no está disponible.</p>
+                 <a href="/tienda">Volver a la tienda</a>
+            </div>
+        <% } %>
+    </main>
+
+    <footer class="footer">
+       <section class="footer__container container">
+           <nav class="nav nav--footer">
+               <h2 class="footer__title">La RetroMusicVideo</h2>
+               <ul class="nav__link nav__link--footer">
+                   <li class="nav__items"><a href="/" class="nav__links">Inicio</a></li>
+                   <li class="nav_items"><a href="/acerca.html" class="nav__links">Acerca de</a></li>
+                   <li class="nav_items"><a href="/contacto.html" class="nav__links">Contacto</a></li>
+                   <li class="nav_items"><a href="/tienda" class="nav__links">Tienda</a></li>
+               </ul>
+           </nav>
+           <form class="footer__form" action="https://formspree.io/f/xdkajqvr" method="POST">
+               <h2 class="footer__newsletter">Suscribete a la newsletter</h2>
+               <div class="footer__inputs">
+                   <input type="email" placeholder="Email: " class="footer__input" name="email">
+                   <input type="submit" value="Registrate" class="footer__submit">
+               </div>
+           </form>
+       </section>
+       <section class="footer__copy container">
+           <div class="footer__social">
+               <a href="#" class="footer__icons"><img src="/images/facebook.svg" alt="fb" class="footer__img"></a>
+               <a href="#" class="footer__icons"><img src="/images/ig.svg" alt="ig" class="footer__img"></a>
+               <a href="#" class="footer__icons"><img src="/images/yt.svg" alt="yt" class="footer__img"></a>
+           </div>
+           <h3 class="footer__copyright">Derechos reservados &copy; Coco Elias</h3>
+       </section>
+    </footer>
+
+    <%# Solo añadir el script para pasar datos si el producto existe %>
+    <% if (typeof producto !== 'undefined' && producto) { %>
+    <script>
+        // Pasar el objeto producto a una variable JS global (o con scope adecuado)
+        // Usar <%- %> es correcto aquí para evitar que se escapen las comillas del JSON
+        const productoActual = <%- JSON.stringify(producto) %>;
+    </script>
+    <% } %>
+
+    <script src="/js/detalle.js" defer></script>
+    <script src="/js/menutienda.js" defer></script>
+
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras</title>
+    <link rel="shortcut icon" href="/images/favicon-32x32.png" type="image/x-icon">
+    <link rel="stylesheet" href="/css/normalize.css">
+    <link rel="stylesheet" href="/css/tiendaestilos.css"> <%# Estilos generales %>
+    <link rel="stylesheet" href="/css/carritoestilos.css"> <%# Estilos específicos del carrito %>
+</head>
+<body>
+    <header class="hero">
+        <nav class="nav container">
+             <div class="nav__logo"><h2 class="nav__title">RetroMusicVideo</h2></div>
+             <ul class="nav__link nav__link--menu">
+                <li class="nav__items"><a href="/" class="nav__links">Inicio</a></li>
+                <li class="nav__items"><a href="/tienda" class="nav__links">Tienda</a></li>
+                <% if(usuarioLogueado) { %>
+                    <li class="nav_items"><a href="/carrito" class="nav__links">Carrito</a></li>
+                    <li class="nav_items"><a href="/logout" class="nav__links">Cerrar Sesión</a></li>
+                <% } else { %>
+                     <li class="nav_items"><a href="/sesion" class="nav__links">Iniciar Sesión</a></li>
+                <% } %>
+                 <img src="/images/close.svg" class="nav__close" alt="close">
+             </ul>
+             <div class="nav__menu"><img src="/images/menu.svg" class="nav__img" alt="menu"></div>
+        </nav>
+    </header>
+    <main>
+        <div class="carrito-cabecera" style="padding: 20px; text-align: center; border-bottom: 1px solid #eee; margin-bottom: 20px;">
+            <h2 class="carrito-titulo" style="margin-bottom: 15px;">Carrito</h2>
+            <%# Asegúrate que las clases CSS de estos botones coincidan con las que busca carrito.js %>
+            <a href="/tienda" class="carrito-tienda-data-button-seguir" style="margin: 5px; padding: 8px 12px; background-color:#007bff; color:white; text-decoration:none; border-radius:4px; border: none; font-size: 1em;">Seguir Comprando</a>
+            <button class="carrito-tienda-data-button-pagar" style="margin: 5px; padding: 8px 12px; background-color: #28a745; color:white; border:none; border-radius:4px; cursor:pointer; font-size: 1em;">Ir a pagar</button>
+            <button class="carrito-tienda-data-button-vaciar" style="margin: 5px; padding: 8px 12px; background-color: #dc3545; color:white; border:none; border-radius:4px; cursor:pointer; font-size: 1em;">Vaciar carrito</button>
+        </div>
+
+        <div class="carrito-tienda" id="carrito-tienda" style="max-width: 800px; margin: 0 auto; padding: 0 15px;">
+            <%# --- Inicio del Bucle EJS para mostrar items --- %>
+            <%# Se asume que la variable 'cartItems' viene de la ruta GET /carrito en server.js %>
+            <% if (typeof cartItems !== 'undefined' && cartItems.length > 0) { %>
+                <% cartItems.forEach(item => { %>
+                    <%# Contenedor de cada producto en el carrito %>
+                    <div class="carrito-producto" style="display: flex; align-items: flex-start; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #eee;">
+                        <img src="<%= item.imagen_url || '/images/placeholder.png' %>" alt="<%= item.nombre %>" class="carrito-producto-imagen" style="width: 80px; height: 80px; object-fit: contain; margin-right: 15px;">
+                        <div class="carrito-producto-detalles" style="flex-grow: 1;">
+                            <h3 class="carrito-producto-nombre" style="margin: 0 0 5px 0; font-size: 1.1em;"><%= item.nombre %></h3>
+                    
+                            <%# ----- ASEGÚRATE DE QUE ESTAS DOS LÍNEAS TENGAN LAS CLASES ----- %>
+                            <p class="carrito-producto-cantidad" style="margin: 2px 0;">Cantidad: <%= item.cantidad %></p>
+                            <p class="carrito-producto-precio-unitario" style="margin: 2px 0;">Precio Unit.: s/.<%= parseFloat(item.precio).toFixed(2) %></p>
+                            <%# ----- FIN DE LÍNEAS A VERIFICAR/CORREGIR ----- %>
+                    
+                            <% let subtotal = (parseFloat(item.precio) * parseInt(item.cantidad)).toFixed(2); %>
+                            <p class="carrito-producto-subtotal" style="margin: 2px 0; font-weight: bold;">Subtotal: s/. <%= subtotal %></p>
+                        </div>
+                        <button class="carrito-producto-eliminar" data-item-id="<%= item.carrito_item_id %>" style="background-color: #dc3545; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px; align-self: center;">Eliminar</button>
+                    </div>
+                <% }); %> <%# Cierre de forEach %>
+                <%# Estilo para ocultar el mensaje de vacío si hay items %>
+                <style>.carrigo__vacio { display: none; }</style>
+            <% } else { %>
+                 <%# Mensaje si el carrito está vacío %>
+                 <p class="carrigo__vacio" style="text-align: center; padding: 30px;">Tu carrito esta vacio</p>
+                 <%# Estilos para ocultar botones si el carrito está vacío %>
+                 <style>
+                     .carrito-tienda-data-button-pagar,
+                     .carrito-tienda-data-button-vaciar { display: none !important; }
+                     .carrigo__vacio { display: block !important; }
+                 </style>
+            <% } %> <%# Cierre del if/else %>
+             <%# --- Fin del Bucle EJS --- %>
+        </div> <%# Fin carrito-tienda %>
+
+        <%# Lugar donde carrito.js mostrará el total general calculado %>
+        <%# (Línea ~86 probablemente cae cerca de aquí o después) %>
+        <div class="carrito-total-container" style="max-width: 800px; margin: 20px auto; text-align: right; padding: 15px; border-top: 2px solid #eee;">
+             <span id="carrito-total-general" style="font-size: 1.2em; font-weight: bold;">Total General: s/. 0.00</span>
+        </div>
+
+    </main> <%# Cierre de main %>
+
+    <footer class="footer">
+        <section class="footer__copy container">
+            <h3 class="footer__copyright">Derechos reservados &copy; Coco Elias</h3>
+        </section>
+    </footer>
+
+    <script src="/js/carrito.js" defer></script>
+    <script src="/js/menu.js" defer></script>
+
+</body> <%# Cierre de body %>
+</html> <%# Cierre de html %>

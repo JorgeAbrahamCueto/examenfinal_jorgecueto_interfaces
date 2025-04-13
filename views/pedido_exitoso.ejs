@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Pedido Completado! - RetroMusicVideo</title>
+    <link rel="shortcut icon" href="/images/favicon-32x32.png" type="image/x-icon">
+    <link rel="stylesheet" href="/css/normalize.css">
+    <link rel="stylesheet" href="/css/estilos.css">
+    <link rel="stylesheet" href="/css/pedido-exitoso.css"> <%# Opcional %>
+     <style> body { display: flex; flex-direction: column; min-height: 100vh; margin: 0;} main { flex-grow: 1; display: flex; align-items: center; justify-content: center; padding: 20px;} .success-container { text-align: center; padding: 30px 40px; margin: 20px auto; max-width: 600px; background-color: #dff0d8; border: 1px solid #d6e9c6; border-radius: 5px; color: #3c763d;} .success-container h1 { margin-bottom: 15px; font-size: 1.8em; } .success-container p { margin-bottom: 20px; line-height: 1.5; } .success-container a { color: #0056b3; text-decoration: none; font-weight: bold; padding: 10px 15px; background-color: #fff; border: 1px solid #ccc; border-radius: 4px; margin: 0 5px;} .success-container a:hover { background-color: #eee; } header.hero { min-height: auto; } footer.footer { flex-shrink: 0; margin-top: auto;} </style>
+</head>
+<body>
+    <header class="hero"> <nav class="nav container"> <div class="nav__logo"><h2 class="nav__title">RetroMusicVideo</h2></div> <ul class="nav__link nav__link--menu"> <li class="nav__items"><a href="/" class="nav__links">Inicio</a></li> <li class="nav__items"><a href="/tienda" class="nav__links">Tienda</a></li> <% if (usuarioLogueado) { %><li class="nav_items"><a href="/logout" class="nav__links">Cerrar Sesión</a></li><% } %> </ul> <div class="nav__menu"><img src="/images/menu.svg" class="nav__img" alt="menu"></div> </nav> </header>
+    <main>
+        <div class="success-container container">
+            <h1>¡Pedido Realizado con Éxito!</h1>
+            <% if (usuarioLogueado) { %><p>Gracias por tu compra, <%= usuarioLogueado.nombre %>.</p><% } else { %><p>Gracias por tu compra.</p><% } %>
+            <p>Tu pedido simulado ha sido registrado correctamente.</p>
+            <div class="success-actions"> <a href="/tienda" class="cta">Seguir Comprando</a> <a href="/" class="cta cta--secondary">Ir al Inicio</a> </div>
+        </div>
+    </main>
+    <footer class="footer"> <section class="footer__copy container"> <h3 class="footer__copyright">Derechos reservados &copy; Coco Elias</h3> </section> </footer>
+    <script> document.addEventListener('DOMContentLoaded', () => { try { console.log("Limpiando localStorage post-pedido..."); localStorage.removeItem('carrito'); localStorage.removeItem('totalPagar'); console.log("LocalStorage limpiado."); } catch (e) { console.error("Error limpiando localStorage:", e); } }); </script>
+    <script src="/js/menu.js" defer></script>
+</body>
+</html>

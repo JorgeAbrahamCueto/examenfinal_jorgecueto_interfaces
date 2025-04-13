@@ -1,0 +1,41 @@
+main {
+    background: linear-gradient(to bottom, 
+        rgba(173, 216, 230, 0.5),
+        rgba(70, 130, 180, 0.3)
+    );
+    padding: 20px 0;
+}
+
+input {
+    border-radius: 0.625em;
+    padding: 0.625em;
+    border: 0.0625em solid #ccc;
+    margin: 0.0625em 0;
+}
+
+.login__container {
+    background-color: #ffffff;
+    padding: 1.25em;
+    border-radius: 0.5em;
+    box-shadow: 0 0.25em 0.5em rgba(0, 0, 0, 0.2);
+    text-align: center;
+    margin: 0;
+}
+button {
+    background-color: #007bff;;
+    border: none;
+    color: white;
+    padding: 0.75em 1.5em;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1em;
+    margin: 0.25em 0;
+    cursor: pointer;
+    border-radius: 2em;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #45a049;
+}
